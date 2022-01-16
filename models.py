@@ -1,0 +1,37 @@
+from CTFd.models import db,Challenges
+
+class WriteupDynamicChallenge(Challenges):
+    __mapper_args__ = {"polymorphic_identity": "wp_dynamic"}
+    id = db.Column(db.Integer, db.ForeignKey("challenges.id",ondelete="CASCADE"), primary_key=True)
+    initial = db.Column(db.Integer, default=0)
+    minimum = db.Column(db.Integer, default=0)
+    decay = db.Column(db.Integer, default=0)
+
+    def __init__(self, *args, **kwargs):
+        super(WriteupDynamicChallenge, self).__init__(**kwargs)
+        self.value = kwargs["initial"]
+
+def query_challenge(cid):
+    challenge = db.session.query(Challenges).filter_by(id=cid).first()
+    return challenge
+
+class Writeup(db.Model):
+    # __mapper_args__ = {"polymorphic_identity": "writeups"}
+    wid = db.Column(db.Integer,primary_key=True)
+    cid = db.Column(db.Integer,db.ForeignKey("challenges.id",ondelete="CASCADE"),nullable=False)
+    uid = db.Column(db.Integer,nullable=False)
+    path = db.Column(db.String(200),nullable=False)
+
+    def __init__(self,cid,uid,path):
+        self.cid = int(cid)
+        self.uid = int(uid)
+        self.path = path
+
+def insert_writeup(cid,uid,path):
+    wp = Writeup(cid,uid,path)
+    db.session.add(wp)
+    db.session.commit()
+
+def query_writeup(cid,uid):
+    wp = db.session.query(Writeup).filter_by(cid=cid,uid=uid).first()
+    return wp
