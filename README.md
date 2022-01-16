@@ -3,11 +3,11 @@ A CTFd plugins Modified from [Dynamic Value Challenges for CTFd](https://github.
 
 Other features are some with [Dynamic Value Challenges for CTFd](https://github.com/CTFd/CTFd/blob/master/CTFd/plugins/dynamic_challenges/README.md)
 
-![not uploaded](images/not_uploaded.PNG)
+![not uploaded](images/not_uploaded.JPG)
 
-![not uploaded](images/uploaded.PNG)
+![not uploaded](images/uploaded.JPG)
 
-You can find uploaded writeups in /writeup
+You can find uploaded writeups in /writeup/challenge_name/username/
 
 ## Installation
 * Clone this repository to `CTFd/plugins`.Make sure the folder's name is `dynamic_challenges_wp`.
