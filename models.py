@@ -20,18 +20,23 @@ class Writeup(db.Model):
     wid = db.Column(db.Integer,primary_key=True)
     cid = db.Column(db.Integer,db.ForeignKey("challenges.id",ondelete="CASCADE"),nullable=False)
     uid = db.Column(db.Integer,nullable=False)
+    tid = db.Column(db.Integer,nullable=True)
     path = db.Column(db.String(200),nullable=False)
 
-    def __init__(self,cid,uid,path):
+    def __init__(self,cid,uid,tid,path):
         self.cid = int(cid)
         self.uid = int(uid)
+        self.tid = int(tid) if tid else None
         self.path = path
 
-def insert_writeup(cid,uid,path):
-    wp = Writeup(cid,uid,path)
+def insert_writeup(cid,uid,tid,path):
+    wp = Writeup(cid,uid,tid,path)
     db.session.add(wp)
     db.session.commit()
 
-def query_writeup(cid,uid):
-    wp = db.session.query(Writeup).filter_by(cid=cid,uid=uid).first()
+def query_writeup(cid,uid,tid):
+    if tid == None:
+        wp = db.session.query(Writeup).filter_by(cid=cid,uid=uid).first()
+    else:
+        wp = db.session.query(Writeup).filter_by(cid=cid,tid=tid).first()
     return wp
